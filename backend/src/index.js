@@ -64,6 +64,6 @@ app.use(userRoutes);
 
 
 // Server Init
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log(`Server up, listening on port ${PORT}`)
 })
