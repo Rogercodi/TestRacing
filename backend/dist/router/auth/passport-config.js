@@ -15,10 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginPassport = void 0;
 const passport_local_1 = require("passport-local");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const userSchema_1 = __importDefault(require("../../models/userSchema"));
+const userSchema_1 = require("../../models/userSchema");
 const loginPassport = function (passport) {
     passport.use(new passport_local_1.Strategy({ usernameField: "email" }, (email, password, done) => __awaiter(this, void 0, void 0, function* () {
-        const user = (yield userSchema_1.default
+        const user = (yield userSchema_1.User
             .findOne({ email: email })
             .populate(['sessions', 'vehiculos'])
             .populate({
@@ -42,7 +42,7 @@ const loginPassport = function (passport) {
         cb(null, user.id);
     });
     passport.deserializeUser((id, cb) => {
-        userSchema_1.default.findOne({ _id: id }, (err, user) => {
+        userSchema_1.User.findOne({ _id: id }, (err, user) => {
             cb(err, user);
         });
     });

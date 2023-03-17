@@ -38,11 +38,10 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.main = main;
-(0, exports.main)().then(data => console.log("Then")).catch((err) => {
+(0, exports.main)().catch((err) => {
     //Error handling
     console.log("main err", err);
 });
 process.on("uncaughtException", err => {
-    process.exit(1);
+    console.log("uncaughtException", err);
 });
-//main -> application.init -> this.mongoDbConnection.connect()

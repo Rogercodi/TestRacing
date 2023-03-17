@@ -32,5 +32,5 @@ main().catch((err) => {
 });
 
 process.on("uncaughtException", err => {
-    process.exit(1);
+    console.log("uncaughtException", err);
 });
