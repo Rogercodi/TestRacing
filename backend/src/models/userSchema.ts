@@ -2,7 +2,7 @@ import mongoose, { model, Schema, Types } from "mongoose";
 import bcrypt from "bcryptjs";
 mongoose.set('strictQuery', false);
 
-export interface IUser {
+export interface MongoDbUser {
   _id:  Types.ObjectId,
   nombre: string;
   email: string;
@@ -13,7 +13,7 @@ export interface IUser {
   matchPassword: (password: string) => Promise<string>;
 }
 
-const userSchema = new mongoose.Schema<IUser>({
+const userSchema = new mongoose.Schema<MongoDbUser>({
   nombre: {
     type: String,
     required: true,
@@ -57,4 +57,4 @@ userSchema.methods.matchPassword = async function (password: string) {
   return await bcrypt.compare(password, this.password);
 };
 
-export const User = model<IUser>("user", userSchema);
+export const UserModel = model<MongoDbUser>("user", userSchema);

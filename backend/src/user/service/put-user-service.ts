@@ -1,11 +1,11 @@
-import { Session } from "../../models/sessionSchema";
-import { UserRepository } from "../repositories/getuser";
+import { SessionModel } from "../../models/sessionSchema";
+import { IUserRepository } from "../repositories/user-mongodb-repository";
 
 export class UpdateSessionService {
-    constructor( private userRepository: UserRepository) {  }
+    constructor( private userRepository: IUserRepository) {  }
 
     async run(sessionId: string, userId: string, body: any) {
-        const session = await Session.findByIdAndUpdate(sessionId, body);
+        const session = await SessionModel.findByIdAndUpdate(sessionId, body);
         if(!session){
             return Promise.reject("Session not found");
         }

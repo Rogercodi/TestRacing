@@ -1,25 +1,20 @@
 import { Request, Response, NextFunction } from "express";
-import { Session } from "../../models/sessionSchema";
-import { User } from "../../models/userSchema";
+import { SessionModel } from "../../models/sessionSchema";
+import { UserModel } from "../../models/userSchema";
+import { IUserRepository, UserRepository } from "../repositories/user-mongodb-repository";
 
 export class SessionPostController {
-    constructor() { }
+
+    private userRepository: IUserRepository;
+
+    constructor() { 
+        this.userRepository = new UserRepository();
+    }
+
     async newSession(req: Request, res: Response, next: NextFunction) {
         try {
             const id = (req?.user as any)._id;
-            const newSession = new Session(req.body);
-            await newSession.save();
-            let user = await User.findOne({ _id: id });
-            user?.sessions.push(newSession._id);
-            await user?.save();
-            user = await User.findOne({ _id: id })
-                .populate(["sessions", "vehiculos"])
-                .populate({
-                    path: 'vehiculos',
-                    populate: {
-                        path: 'configuraciones'
-                    }
-                });;
+            const user = await this.userRepository.newSession(id, req.body);
             return res.send({ message: "New session stored!", user });
 
         } catch (e) {

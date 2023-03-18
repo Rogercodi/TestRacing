@@ -1,6 +1,7 @@
 import mongoose, { Schema, Types } from "mongoose";
 
-export interface IVehiculo{
+export interface IMongoDbVehiculo{
+  _id: Types.ObjectId;
   owner: Types.ObjectId;
   alias: string;
   marca:string;
@@ -9,7 +10,7 @@ export interface IVehiculo{
   configuraciones: Types.ObjectId[];
 }
 
-const vehiculoSchema = new mongoose.Schema<IVehiculo>({
+const vehiculoSchema = new mongoose.Schema<IMongoDbVehiculo>({
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -38,4 +39,4 @@ const vehiculoSchema = new mongoose.Schema<IVehiculo>({
   ],
 });
 
-export const Vehicle =  mongoose.model<IVehiculo>('Vehicle', vehiculoSchema);
+export const VehicleModel =  mongoose.model<IMongoDbVehiculo>('Vehicle', vehiculoSchema);

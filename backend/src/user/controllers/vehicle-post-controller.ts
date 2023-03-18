@@ -1,26 +1,20 @@
 import { Request, Response, NextFunction } from "express";
-import { User } from "../../models/userSchema";
-import { Vehicle } from "../../models/vehicleSchema";
+import { IUserRepository, UserRepository } from "../repositories/user-mongodb-repository";
+
 
 export class VehiclePostController {
-    constructor() { }
+
+    private userRepository: IUserRepository;
+
+    constructor() {
+        this.userRepository = new UserRepository();
+    }
+    
     async newVehicle(req: Request, res: Response, next: NextFunction) {
 
         try {
             let id = (req?.user as any)._id;
-            let newVehicle = new Vehicle(req.body);
-            await newVehicle.save();
-            let user = await User.findOne({ _id: id });
-            user?.vehiculos.push(newVehicle._id);
-            await user?.save();
-            user = await User.findOne({ _id: id })
-                .populate(["sessions", "vehiculos"])
-                .populate({
-                    path: 'vehiculos',
-                    populate: {
-                        path: 'configuraciones'
-                    }
-                });;
+            const user = await this.userRepository.newVehicle(id, req.body);
             return res.status(201).send({ message: "New vehicle stored!", user });
 
         } catch (e) {

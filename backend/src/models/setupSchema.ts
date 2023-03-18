@@ -1,6 +1,6 @@
 import mongoose, { Schema, Types } from "mongoose";
 
-export interface ISetUp {
+export interface IMongoDbSetUp {
   vehiculo: Types.ObjectId;
   referencia: string;
   neumaticos: {
@@ -38,7 +38,7 @@ export interface ISetUp {
   },
 }
 
-const setupSchema = new mongoose.Schema<ISetUp>(
+const setupSchema = new mongoose.Schema<IMongoDbSetUp>(
   {
     vehiculo: {
       type: Schema.Types.ObjectId,
@@ -90,4 +90,4 @@ const setupSchema = new mongoose.Schema<ISetUp>(
   { timestamps: false }
 );
 
-export const Setup =  mongoose.model<ISetUp>("Setup", setupSchema);
+export const SetupModel =  mongoose.model<IMongoDbSetUp>("Setup", setupSchema);

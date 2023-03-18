@@ -1,6 +1,7 @@
 import mongoose, { model, Schema, Types } from "mongoose";
 
-export interface ISessionSchema {
+export interface IMongoDbSessionSchema {
+  _id: Types.ObjectId;
   owner: Types.ObjectId;
   vehiculo: string;
   circuito:string;
@@ -29,4 +30,4 @@ const sessionSchema = new mongoose.Schema({
   },
 });
 
-export const Session = model<ISessionSchema>("Session", sessionSchema);
+export const SessionModel = model<IMongoDbSessionSchema>("Session", sessionSchema);

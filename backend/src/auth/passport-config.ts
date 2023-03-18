@@ -1,13 +1,13 @@
 import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcryptjs";
-import {User} from "../models/userSchema";
+import {UserModel} from "../models/userSchema";
 
 export const loginPassport = function (passport: any) {
     passport.use(
         new LocalStrategy(
             { usernameField: "email" },
             async (email, password, done) => {
-                const user = await User
+                const user = await UserModel
                     .findOne({ email: email })
                     .populate(['sessions', 'vehiculos'])
                     .populate({
@@ -34,7 +34,7 @@ export const loginPassport = function (passport: any) {
     });
 
     passport.deserializeUser((id: string, cb:Function) => {
-        User.findOne({ _id: id }, (err: any, user: any) => {
+        UserModel.findOne({ _id: id }, (err: any, user: any) => {
             cb(err, user);
         });
     });

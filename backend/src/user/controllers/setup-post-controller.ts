@@ -1,28 +1,19 @@
 import { Request, Response, NextFunction } from "express";
-import { Setup } from "../../models/setupSchema";
-import { User } from "../../models/userSchema";
-import { Vehicle } from "../../models/vehicleSchema";
+import { IUserRepository, UserRepository } from "../repositories/user-mongodb-repository";
 
 export class SetUpPostController {
-    constructor() { }
+
+    private userRepository: IUserRepository;
+
+    constructor() {
+        this.userRepository = new UserRepository();
+    }
+
     async addSetUp(req: Request, res: Response, next: NextFunction) {
+
         try {
 
-            const setUp = new Setup(req.body);
-            await setUp.save();
-            let vehicle = await Vehicle.findById(req.body.vehiculo);
-            vehicle?.configuraciones.push(setUp._id);
-            await vehicle?.save();
-
-            const user = await User.findOne({ _id: (req?.user as any)._id })
-                .populate(["sessions", "vehiculos"])
-                .populate({
-                    path: "vehiculos",
-                    populate: {
-                        path: "configuraciones",
-                    },
-                });
-
+            const user = this.userRepository.newSetUp((req?.user as any)._id, req.body.vehiculo, req.body);
             return res.status(201).send({ message: "Setup succesfully added", user });
 
         } catch (e) {

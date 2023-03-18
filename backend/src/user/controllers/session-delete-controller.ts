@@ -1,36 +1,22 @@
 import { Request, Response, NextFunction } from "express";
-import { Session } from "../../models/sessionSchema";
-import { User } from "../../models/userSchema";
+import { SessionModel } from "../../models/sessionSchema";
+import { UserModel } from "../../models/userSchema";
+import { IUserRepository, UserRepository } from "../repositories/user-mongodb-repository";
 
 export class SessionDeleteController {
+
+    private userRepository: IUserRepository;
    
-    constructor() { }
+    constructor() { 
+        this.userRepository = new UserRepository();
+    }
 
     async deleteSession(req: Request, res: Response, next: NextFunction) {
 
         try {
             const sessionID = req.params.id;
-            const user = await User.findOne({ _id: (req?.user as any)._id })
-                .populate([
-                    "sessions",
-                    "vehiculos",
-                ]).populate({
-                    path: 'vehiculos',
-                    populate: {
-                        path: 'configuraciones'
-                    }
-                });
-            if (!user) {
-                return res.status(404).send({ err: "User not found" });
-            }
-
-            user.sessions = user.sessions.filter((item) => {
-                let b = item.toString();
-                return item._id.toString() !== sessionID;
-            });
-            await user.save();
-            await Session.findOneAndDelete({ _id: sessionID });
-            return res.send({ message: "post recieved", user });
+            const user = await this.userRepository.deleteUserSession((req?.user as any)._id, sessionID);
+            return res.send({ message: "Session deleted", user });
 
         } catch (e) {
             console.log(e);

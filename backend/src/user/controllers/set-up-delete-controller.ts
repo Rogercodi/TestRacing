@@ -1,23 +1,22 @@
 import { Request, Response, NextFunction } from "express";
-import { Setup } from "../../models/setupSchema";
-import { User } from "../../models/userSchema";
+import { SetupModel } from "../../models/setupSchema";
+import { UserModel } from "../../models/userSchema";
+import { IUserRepository, UserRepository } from "../repositories/user-mongodb-repository";
 
 export class SetUpDeleteController {
-    constructor() { }
+
+    private userRepository: IUserRepository;
+
+    constructor() {
+        this.userRepository = new UserRepository();
+    }
     async deleteSetUp(req: Request, res: Response, next: NextFunction) {
         try {
 
             let ref = req.params.referencia;
-            console.log(ref);
-            await Setup.findOneAndDelete({ referencia: ref });
-            const user = await User.findOne({ _id: (req?.user as any)._id })
-                .populate(["sessions", "vehiculos"])
-                .populate({
-                    path: "vehiculos",
-                    populate: {
-                        path: "configuraciones",
-                    },
-                });
+
+            await SetupModel.findOneAndDelete({ referencia: ref });
+            const user = await this.userRepository.getUserById((req?.user as any)._id);
             res.status(201).send({ message: 'setup removed!', user })
 
         } catch (e) {

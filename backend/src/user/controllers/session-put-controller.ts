@@ -1,6 +1,6 @@
 
 import  {  NextFunction, Request, Response } from "express";
-import { IUserRepository, UserRepository } from "../repositories/getuser";
+import { IUserRepository, UserRepository } from "../repositories/user-mongodb-repository";
 import { UpdateSessionService } from "../service/put-user-service";
 
 export class SessionPutController {
