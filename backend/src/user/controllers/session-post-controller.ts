@@ -8,6 +8,7 @@ export class SessionPostController{
         try{
             const id = (req?.user as any)._id;
             const newSession = new Session(req.body);
+            await newSession.save();
             let user = await User.findOne({_id: id});
             user?.sessions.push(newSession._id);
             await user?.save();

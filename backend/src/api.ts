@@ -12,7 +12,7 @@ import cors from "cors";
 import passport from "passport";
 import { MongoDbConnection } from "./infrastructure/database/mongo-connection";
 import { Configuration } from "./config/configuration";
-import { loginPassport } from "./router/auth/passport-config";
+import { loginPassport } from "./auth/passport-config";
 
 export interface ApplicationConfig {
     port: number,

@@ -1,6 +1,6 @@
 import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcryptjs";
-import {User} from "../../models/userSchema";
+import {User} from "../models/userSchema";
 
 export const loginPassport = function (passport: any) {
     passport.use(
