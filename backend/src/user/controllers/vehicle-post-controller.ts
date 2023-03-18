@@ -6,17 +6,24 @@ export class VehiclePostController {
     constructor() { }
     async newVehicle(req: Request, res: Response, next: NextFunction) {
 
-        try{
+        try {
             let id = (req?.user as any)._id;
             let newVehicle = new Vehicle(req.body);
             await newVehicle.save();
             let user = await User.findOne({ _id: id });
             user?.vehiculos.push(newVehicle._id);
             await user?.save();
-            user = await User.findOne({ _id: id }).populate(["sessions", "vehiculos"]);
+            user = await User.findOne({ _id: id })
+                .populate(["sessions", "vehiculos"])
+                .populate({
+                    path: 'vehiculos',
+                    populate: {
+                        path: 'configuraciones'
+                    }
+                });;
             return res.status(201).send({ message: "New vehicle stored!", user });
 
-        }catch(e){
+        } catch (e) {
             console.log(e);
             next(e);
         }

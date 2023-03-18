@@ -2,20 +2,27 @@ import { Request, Response, NextFunction } from "express";
 import { Session } from "../../models/sessionSchema";
 import { User } from "../../models/userSchema";
 
-export class SessionPostController{
-    constructor(){}
-    async newSession(req: Request, res: Response, next: NextFunction){
-        try{
+export class SessionPostController {
+    constructor() { }
+    async newSession(req: Request, res: Response, next: NextFunction) {
+        try {
             const id = (req?.user as any)._id;
             const newSession = new Session(req.body);
             await newSession.save();
-            let user = await User.findOne({_id: id});
+            let user = await User.findOne({ _id: id });
             user?.sessions.push(newSession._id);
             await user?.save();
-            user = await User.findOne({ _id: id }).populate(["sessions", "vehiculos"]);
+            user = await User.findOne({ _id: id })
+                .populate(["sessions", "vehiculos"])
+                .populate({
+                    path: 'vehiculos',
+                    populate: {
+                        path: 'configuraciones'
+                    }
+                });;
             return res.send({ message: "New session stored!", user });
 
-        }catch(e){
+        } catch (e) {
             console.log(e);
             next(e);
         }
