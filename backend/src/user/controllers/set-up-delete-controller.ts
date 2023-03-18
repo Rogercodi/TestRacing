@@ -9,10 +9,11 @@ export class SetUpDeleteController {
 
     constructor() {
         this.userRepository = new UserRepository();
+        console.log(this.userRepository);
     }
     async deleteSetUp(req: Request, res: Response, next: NextFunction) {
         try {
-
+            console.log(this.userRepository);
             let ref = req.params.referencia;
 
             await SetupModel.findOneAndDelete({ referencia: ref });

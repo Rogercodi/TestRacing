@@ -36,7 +36,7 @@ const editVehicleController = new VehiclePutController();
 userRouter.put("/user/editvehicle/:id", editVehicleController.EditVehicle.bind(editVehicleController));
 
 const addSetUpController = new SetUpPostController();
-userRouter.post("/user/myvehicles/setup", addSetUpController.addSetUp.bind(editSessionController));
+userRouter.post("/user/myvehicles/setup", addSetUpController.addSetUp.bind(addSetUpController));
 
 const editSetUpController = new SetUpPutController();
 userRouter.put("/user/myvehicles/editsetup", editSetUpController.editSetUp.bind(editSetUpController));

@@ -12,8 +12,7 @@ export class SetUpPostController {
     async addSetUp(req: Request, res: Response, next: NextFunction) {
 
         try {
-
-            const user = this.userRepository.newSetUp((req?.user as any)._id, req.body.vehiculo, req.body);
+            const user = await this.userRepository.newSetUp((req?.user as any)._id, req.body.vehiculo, req.body);
             return res.status(201).send({ message: "Setup succesfully added", user });
 
         } catch (e) {

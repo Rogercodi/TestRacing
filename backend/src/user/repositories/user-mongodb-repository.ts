@@ -19,6 +19,10 @@ export interface IUserRepository {
 
 export class UserRepository implements IUserRepository {
 
+    constructor(){
+        
+    }
+
     async newVehicle(userId: string, vehicle: any) {
 
         let newVehicle = new VehicleModel(vehicle);
@@ -51,7 +55,7 @@ export class UserRepository implements IUserRepository {
         const newSetUp = new SetupModel(setUp);
         await newSetUp.save();
         let vehicle = await VehicleModel.findById(vehicleId);
-        vehicle?.configuraciones.push(setUp._id);
+        vehicle?.configuraciones.push(newSetUp._id);
         await vehicle?.save();
 
         return this.getUserById(userId);

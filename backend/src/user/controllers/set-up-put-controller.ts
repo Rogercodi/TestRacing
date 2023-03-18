@@ -15,7 +15,7 @@ export class SetUpPutController {
 
         try {
             await SetupModel.findByIdAndUpdate(req.body.setupId, req.body);
-            const user = this.userRepository.getUserById((req?.user as any)._id);
+            const user = await this.userRepository.getUserById((req?.user as any)._id);
             res.status(201).send({ message: "Setup succesfully updated", user });
         } catch (e) {
             console.log(e);
