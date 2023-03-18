@@ -9,6 +9,8 @@ export interface IUser {
   password: string;
   sessions: Types.ObjectId[];
   vehiculos: Types.ObjectId[];
+  encryptPassword: (password: string) => Promise<string>;
+  matchPassword: (password: string) => Promise<string>;
 }
 
 const userSchema = new mongoose.Schema<IUser>({

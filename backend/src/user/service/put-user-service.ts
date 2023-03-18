@@ -1,5 +1,5 @@
-import { Session } from "../models/sessionSchema";
-import { UserRepository } from "./getuser";
+import { Session } from "../../models/sessionSchema";
+import { UserRepository } from "../repositories/getuser";
 
 export class UpdateSessionService {
     constructor( private userRepository: UserRepository) {  }

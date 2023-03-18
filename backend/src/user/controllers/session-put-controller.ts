@@ -1,11 +1,9 @@
 
-import express, { Application, json, NextFunction, Request, Response, Router, urlencoded } from "express";
-import { UserRepository } from "./getuser";
-import { UpdateSessionService } from "./put-user-service";
+import  {  NextFunction, Request, Response } from "express";
+import { UserRepository } from "../repositories/getuser";
+import { UpdateSessionService } from "../service/put-user-service";
 
-const router = express.Router();
-
-class SessionPutController {
+export class SessionPutController {
     constructor() { }
     async EditSession(req: Request, res: Response, next: NextFunction) {
 
@@ -26,13 +24,10 @@ class SessionPutController {
 
         } catch (e) {
             console.log(e);
-            next(e)
+            next(e);
         }
     }
 }
-const controller = new SessionPutController();
 
-router.put("/editsession/:id", controller.EditSession.bind(controller));
-export default router;
 
 
