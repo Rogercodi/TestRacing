@@ -1,9 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
-const auth: {
-    pass: (req: Request, res: Response, next: NextFunction) => void
-} = {
-    pass: (req, res, next) => {
+const auth = {
+    pass: (req: Request, res: Response, next: NextFunction) => {
         if (req.isAuthenticated()) {
             next()
         } else {

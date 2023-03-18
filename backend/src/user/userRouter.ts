@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { SessionDeleteController } from "./controllers/session-delete-controller";
 import { SessionPostController } from "./controllers/session-post-controller";
 import { SessionPutController } from "./controllers/session-put-controller";
@@ -20,8 +20,14 @@ userRouter.post("/user/newsession", newSessionController.newSession.bind(newSess
 const newVehicleController = new VehiclePostController();
 userRouter.post("/user/newvehicle", newVehicleController.newVehicle.bind(newVehicleController));
 
+//---------------------------------------------------------
 const deleteSessionController = new SessionDeleteController();
 userRouter.delete("/user/deletesession/:id", deleteSessionController.deleteSession.bind(deleteSessionController));
+
+/* userRouter.delete("/user/deletesession/:id",  (req: Request, res: Response, next: NextFunction) => {
+    deleteSessionController.deleteSession(req, res, next);
+}); */
+//-----------------------------------------------------------
 
 const deleteVehicleControler = new VehicleDeleteController();
 userRouter.delete("/user/deletevehicle/:id", deleteVehicleControler.deleteVehicle.bind(deleteVehicleControler));

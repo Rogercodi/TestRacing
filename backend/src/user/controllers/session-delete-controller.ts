@@ -3,9 +3,11 @@ import { Session } from "../../models/sessionSchema";
 import { User } from "../../models/userSchema";
 
 export class SessionDeleteController {
+   
     constructor() { }
 
     async deleteSession(req: Request, res: Response, next: NextFunction) {
+
         try {
             const sessionID = req.params.id;
             const user = await User.findOne({ _id: (req?.user as any)._id })
