@@ -1,6 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { SessionModel } from "../../models/sessionSchema";
-import { UserModel } from "../../models/userSchema";
 import { IUserRepository, UserRepository } from "../repositories/user-mongodb-repository";
 
 export class SessionDeleteController {

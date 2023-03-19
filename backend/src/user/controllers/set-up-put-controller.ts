@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import { SetupModel } from "../../models/setupSchema";
-import { UserModel } from "../../models/userSchema";
 import { IUserRepository, UserRepository } from "../repositories/user-mongodb-repository";
 
 export class SetUpPutController {

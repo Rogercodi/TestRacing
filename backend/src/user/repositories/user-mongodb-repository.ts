@@ -11,8 +11,8 @@ import { SetUp } from "../domain/SetUp";
 export interface IUserRepository {
     getUserById(userId: string): Promise<User>;
     deleteUserSession(userId: string, sessionId: string): Promise<User>;
-    newSession(userId: string, session: any): Promise<User>;
-    newSetUp(userId: string, vehicleId: string, setUp: any): Promise<User>;
+    newSession(userId: string, session: Session): Promise<User>;
+    newSetUp(userId: string, vehicleId: string, setUp: SetUp): Promise<User>;
     deleteVehicle(userId: string, vehicleId: string): Promise<User>;
     newVehicle(userId: string, vehicle: any): Promise<User>
 }
@@ -50,7 +50,7 @@ export class UserRepository implements IUserRepository {
     }
 
 
-    async newSetUp(userId: string, vehicleId: string, setUp: any) {
+    async newSetUp(userId: string, vehicleId: string, setUp: SetUp) {
 
         const newSetUp = new SetupModel(setUp);
         await newSetUp.save();
@@ -78,7 +78,7 @@ export class UserRepository implements IUserRepository {
         return this.toUser(user);
     }
 
-    async newSession(userId: string, session: any) {
+    async newSession(userId: string, session: Session) {
 
         const newSession = new SessionModel(session);
         await newSession.save();
