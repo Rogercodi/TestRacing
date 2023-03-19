@@ -26,7 +26,7 @@ export function RacingContextProvider({ children }) {
 
   async function axiosCall(url, body, method) {
     return axios({
-      baseURL: "http://testracing.ddns.net:85",
+      baseURL: "http://localhost:3000",
       url: url,
       data: body,
       method: method,
