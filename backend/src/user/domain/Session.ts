@@ -31,12 +31,17 @@ export class Session implements ISession {
         this.mejorvuelta = mejorvuelta;
     }
 
-    public static fromPrimitives(owner: string,
+    public static fromPrimitives(
+        owner: string,
         vehiculo: string,
         circuito: string,
         tipo: string,
         fecha: string,
         mejorvuelta: string) {
+
+        if(!owner){
+            throw new Error("Owner is mandatory in Session model");
+        }
 
         return new Session(
             owner,
