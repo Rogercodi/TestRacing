@@ -1,5 +1,6 @@
 
 import  {  NextFunction, Request, Response } from "express";
+import { Session } from "../domain/Session";
 import { IUserRepository, UserRepository } from "../repositories/user-mongodb-repository";
 import { UpdateSessionService } from "../service/put-user-service";
 
@@ -19,7 +20,8 @@ export class SessionPutController {
             const id = req.params.id;
             const { body } = req;
 
-            const user = await this.service.run(id, (req.user as any)?._id, body);
+            const session =  Session.fromPrimitives(body.owner, body.vehiculo, body.circuito, body.tipo, body.fecha, body.mejorvuelta);
+            const user = await this.service.run(id, (req.user as any)?._id, session);
 
             if (user) {
                 return res.status(201).send({ message: "Successfully updated", user });

@@ -1,15 +1,16 @@
 import { SessionModel } from "../../models/sessionSchema";
+import { Session } from "../domain/Session";
 import { IUserRepository } from "../repositories/user-mongodb-repository";
 
 export class UpdateSessionService {
     constructor( private userRepository: IUserRepository) {  }
 
-    async run(sessionId: string, userId: string, body: any) {
-        const session = await SessionModel.findByIdAndUpdate(sessionId, body);
+    async run(sessionId: string, userId: string, session: Session) {
+        const mongoSession = await SessionModel.findByIdAndUpdate(sessionId, session);
         if(!session){
             return Promise.reject("Session not found");
         }
-        await session?.save();
+        await mongoSession?.save();
         return this.userRepository.getUserById(userId);
     }
 }
